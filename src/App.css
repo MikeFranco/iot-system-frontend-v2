@@ -39,13 +39,3 @@ body {
 .card-title {
   font-size: 15px;
 }
-
-/*DELETE THIS CSS*/
-
-.back-red {
-  background-color: red;
-}
-
-.back-blue {
-  background-color: blue;
-}
