@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Modal, Button, Row, Col } from 'react-bootstrap';
 
-export const CustomModal = props => {
+export const UpdateDevicemModal = props => {
   //? props = show, onHide, setDevices
-
-  const [labelValue, setLabelValue] = useState('');
-  const [manufacturerValue, setManufacturerValue] = useState('');
+  const { label, manufacturer } = props.device;
+  const [labelValue, setLabelValue] = useState(label);
+  const [manufacturerValue, setManufacturerValue] = useState(manufacturer);
   const [typeValue, setTypeValue] = useState('fan');
 
   const handleLabelChange = e => {
@@ -27,7 +27,7 @@ export const CustomModal = props => {
       : { turnedOn: false };
   };
 
-  const saveNewDevice = () => {
+  const updateNewDevice = () => {
     if (
       !labelValue ||
       !manufacturerValue ||
@@ -38,17 +38,15 @@ export const CustomModal = props => {
       alert('Favor de llenar todos los campos');
     } else {
       const newState = getDeviceState();
-      const newDevice = {
-        type: typeValue,
-        label: labelValue,
-        manufacturer: manufacturerValue,
-        state: newState
-      };
 
-      props.setDevices(prevState => {
-        const idValue = prevState.length + 1;
-        newDevice.id = idValue;
-        return [...prevState, newDevice];
+      props.updateDevice(prevState => {
+        return {
+          ...prevState,
+          type: typeValue,
+          label: labelValue,
+          manufacturer: manufacturerValue,
+          state: newState
+        };
       });
       setLabelValue('');
       setManufacturerValue('');
@@ -64,7 +62,9 @@ export const CustomModal = props => {
       aria-labelledby='contained-modal-title-vcenter'
       centered>
       <Modal.Header closeButton>
-        <Modal.Title id='contained-modal-title-vcenter'>Add Device</Modal.Title>
+        <Modal.Title id='contained-modal-title-vcenter'>
+          Update Device
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Row>
@@ -99,7 +99,7 @@ export const CustomModal = props => {
         </Row>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={() => saveNewDevice()}>Add</Button>
+        <Button onClick={() => updateNewDevice()}>Update</Button>
       </Modal.Footer>
     </Modal>
   );

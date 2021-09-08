@@ -67,7 +67,7 @@ function App() {
   return (
     <>
       <Container fluid>
-        <Header setDevices={setDevices}/>
+        <Header setDevices={setDevices} />
         <Row className='d-flex justify-content-around'>
           {devices.map(device => (
             <CardDevice

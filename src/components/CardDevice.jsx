@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
 import { getDeviceIcon } from '../utils';
+import { UpdateDevicemModal } from './UpdateDeviceModal';
 
-export const CardDevice = ({ type, label, manufacturer, state }) => {
+export const CardDevice = ({ id, type, label, manufacturer, state }) => {
   const [stateValue, setNewState] = useState(state);
   const [powerValue, setPowerValue] = useState(state);
-
+  const [updateModalShow, setUpdateModalShow] = useState(false);
+  const [device, updateDevice] = useState({
+    id,
+    type,
+    label,
+    manufacturer,
+    state
+  });
   const togglePower = () => {
     setPowerValue({
       ...stateValue,
@@ -33,6 +41,10 @@ export const CardDevice = ({ type, label, manufacturer, state }) => {
     }
   };
 
+  const onHideModal = () => {
+    setUpdateModalShow(false);
+  };
+
   return (
     <>
       <Card style={{ width: '18rem' }} className='mt-3 card'>
@@ -41,16 +53,18 @@ export const CardDevice = ({ type, label, manufacturer, state }) => {
             <Row className='justify-content-between'>
               <Col md='10' className='card-title'>
                 <p className='mb-0'>
-                  {getDeviceIcon(type)} {label}
+                  {getDeviceIcon(device.type)} {device.label}
                 </p>
               </Col>
               <Col md='1' className='card-title text-right'>
-                {getDeviceIcon('edit')}
+                <span onClick={() => setUpdateModalShow(true)}>
+                  {getDeviceIcon('edit')}
+                </span>
               </Col>
             </Row>
           </Card.Title>
           <Card.Subtitle className='mb-2 card-subtitle-text'>
-            {manufacturer}
+            {device.manufacturer}
           </Card.Subtitle>
           <Card.Text>
             <Row>
@@ -60,7 +74,7 @@ export const CardDevice = ({ type, label, manufacturer, state }) => {
                   {getDeviceIcon(!powerValue.turnedOn ? 'on' : 'off')}
                 </span>
               </Col>
-              {type === 'fan' && (
+              {device.type === 'fan' && (
                 <Col className='text-end p-0'>
                   <span onClick={reduceSpeed}>{getDeviceIcon('minus')}</span>
                   <span>{stateValue?.speed}</span>
@@ -71,6 +85,15 @@ export const CardDevice = ({ type, label, manufacturer, state }) => {
           </Card.Text>
         </Card.Body>
       </Card>
+      <UpdateDevicemModal
+        show={updateModalShow}
+        onHide={onHideModal}
+        device={device}
+        /* label={device.label}
+        type={device.type}
+        manufacturer={device.manufacturer} */
+        updateDevice={updateDevice}
+      />
     </>
   );
 };

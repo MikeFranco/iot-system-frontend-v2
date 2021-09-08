@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { getDeviceIcon } from '../utils';
-import { CustomModal } from './CustomModal';
+import { AddDeviceModal } from './AddDeviceModal';
 import '../App.css';
 
 export const Header = ({ setDevices }) => {
@@ -24,7 +24,7 @@ export const Header = ({ setDevices }) => {
             {getDeviceIcon('add')} Add Device
           </p>
         </Col>
-        <CustomModal
+        <AddDeviceModal
           show={modalShow}
           onHide={onHideModal}
           setDevices={setDevices}
